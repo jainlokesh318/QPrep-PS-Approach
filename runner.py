@@ -1,3 +1,4 @@
+
 import argparse
 import os
 import sys
@@ -42,7 +43,7 @@ def run(name_of_the_problem, language='c++'):
             #'python' : 'cd ' + name_of_the_problem + ' && pylint --disable=missing-docstring ' + name_of_the_problem + '.py'
             }
 
-    compile_program = 'echo "Done"'
+    compile_program = 'exit 0'
     if language in compile_cmd:
         compile_program = compile_cmd[language]
 
@@ -70,7 +71,7 @@ def run(name_of_the_problem, language='c++'):
                     run_one_test(language, name_of_the_problem, file_name, test_output_filename)
                     passed = False
                     if multiple_solution_possible:
-                        cmd = 'python3 {} {} {} {}'.format(evaluate_file, name_of_the_problem + '/tests/' + file_name, name_of_the_problem + '/tests/' + output_file_name, test_output_filename)
+                        cmd = 'python3 {} {} {} {}'.format(evaluate_file, name_of_the_problem + '/tests/' + file_name, name_of_the_problem + '/tests/' + output_file_name, name_of_the_problem + '/' + test_output_filename)
                         proc = subprocess.run(cmd, shell=True)
                         passed = proc.returncode == 0
                     else:
@@ -152,10 +153,14 @@ def run_with_custom_input(name_of_the_problem, language, input_file_path):
 def commit_msg(name_of_the_problem, submission_type, language):
     return "[{}]:[{}]:[{}]".format(submission_type, name_of_the_problem, language)
 
+ 
 def local_run(name_of_the_problem, type_of_run, lang):
     repo = Repo(os.getenv('PWD'))
     repo.index.add([name_of_the_problem], force=False)
     repo.index.commit(commit_msg(name_of_the_problem, type_of_run, lang))
+def submit(name_of_the_problem):
+    repo = Repo('.')
+    repo.index.add([name_of_the_problem], force=False)
 
 def submit(name_of_the_problem, lang):
     repo = Repo(os.getenv('PWD'))
@@ -189,6 +194,15 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    if not os.path.exists('crio'):
+        os.system('mkdir crio')
+        os.system('git clone https://gitlab.crio.do/crio_libs/crio_ps_ds.git crio')
+    else:
+        ret = os.system('cd crio && git pull')
+        if ret != 0:
+            os.system('rm -rf crio/* && git clone https://gitlab.crio.do/crio_libs/crio_ps_ds.git crio')
+  
+    
     if args.test_all:
         all_problems = [dir for dir in os.listdir(os.getenv('PWD')) if dir[0] >= 'A' and dir[0] <= 'Z']
         all_passed = True
@@ -219,6 +233,7 @@ if __name__ == '__main__':
                 print("Make sure file exists")
                 sys.exit(1)
         run_with_custom_input(args.problem, args.lang, args.input)
+
         if not args.dev:
             local_run(args.problem, "SingleTest", args.lang)
 
