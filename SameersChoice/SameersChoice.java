@@ -1,6 +1,10 @@
 import java.io.*;
 import java.util.*;
 
+// DON'T TOUCH THIS FILE. ASSESSMENT WILL REPLACE THIS FILE
+
+
+
 class SameersChoice {
 	void testValidNumberPattern() {
 		solution solve = new solution();
