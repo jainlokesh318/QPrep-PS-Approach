@@ -1,6 +1,10 @@
 import java.io.*;
 import java.util.*;
 
+// DON'T TOUCH THIS FILE. ASSESSMENT WILL REPLACE THIS FILE
+
+
+
 class SameersChoice {
 
 	public static void main(String args[]) {
