@@ -181,6 +181,20 @@ def get_submission_type_and_problem_id():
     return (submission, problem_id)
 
 
+def repo_exists(path, repo_name):
+    if not os.path.exists(path):
+        return False
+
+    f = open(path, 'r+')
+    lines = f.readlines()
+    f.close()
+    
+    for line in lines:
+        if repo_name in line:
+            os.system('cd crio && git reset --hard origin/master')	    
+            return True
+    return False
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='myprogram')
     parser.add_argument('-r', '--run', help='Run problem id', action='store_true')
@@ -194,14 +208,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if not os.path.exists('crio'):
-        os.system('mkdir crio')
+
+    config_path = 'crio/.git/config'
+    if not repo_exists('crio/.git/config', 'crio_ps_ds.git'):
+        os.system('mkdir -p crio && rm -rf crio/*')
         os.system('git clone https://gitlab.crio.do/crio_libs/crio_ps_ds.git crio')
-    else:
-        ret = os.system('cd crio && git pull')
-        if ret != 0:
-            os.system('rm -rf crio/* && git clone https://gitlab.crio.do/crio_libs/crio_ps_ds.git crio')
-  
     
     if args.test_all:
         all_problems = [dir for dir in os.listdir(os.getenv('PWD')) if dir[0] >= 'A' and dir[0] <= 'Z']
