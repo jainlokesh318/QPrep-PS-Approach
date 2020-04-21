@@ -78,6 +78,12 @@ ListNode * performRandomReversals(ListNode * head, const vector<int> & v)
         }
     }
 
+    while(current != NULL)
+    {
+        append(&new_head, current->val);
+        current = current->next;
+    }
+
     return new_head->next;
 }
 
