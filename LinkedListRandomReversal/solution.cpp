@@ -15,7 +15,7 @@
 //      What do you do when there are less than k elements ?
 //
 
-vector<ListNode*> reverse_linked_list(ListNode* head)
+vector<ListNode*> reverse_linked_list(ListNode* head, ListNode* endi)
 {
     vector<ListNode*> res;
 
@@ -27,7 +27,7 @@ vector<ListNode*> reverse_linked_list(ListNode* head)
 
     ListNode* prev = NULL, *next = NULL, *curr = head;
 
-    while(curr != NULL)
+    while(curr != endi)
     {
         next = curr->next;
         curr->next = prev;
@@ -87,8 +87,8 @@ vector<ListNode*> split_list(ListNode* head, int k)
         res[0] = head;
         for(int i = 0; i < k; i++)
             head = head->next;
-        head = head->next; //to make the new list from the new element;
         res[1] = head;
+        head = head->next; //to make the new list from the new element;
     }
 
     return res;
@@ -98,7 +98,7 @@ vector<ListNode*> split_list(ListNode* head, int k)
  * function useful for debugging
  */
 
-void print_list(ListNode * head)
+void print(ListNode * head)
 {
     printf("List : ");
 
@@ -125,8 +125,10 @@ void append_reversed_list_to_result(ListNode* &result_head, ListNode* &result_ta
         result_head = append_head;
         result_tail = append_tail;
     }
-    else
+    else{
+        result_tail->next = append_head;
         result_tail = append_tail;
+    }
 }
 // TODO: CRIO_TASK_MODULE_LINKED_LIST_RANDOM_REVERSAL
 // Input:
@@ -144,15 +146,34 @@ void append_reversed_list_to_result(ListNode* &result_head, ListNode* &result_ta
 
 ListNode * performRandomReversals(ListNode * head, const vector<int> & v)
 {
-    ListNode *result_head = NULL, *result_tail = NULL;
+    ListNode *result_head = NULL, *result_tail = NULL, *temp = head;
+
+    int s = 0;
+    while(temp != NULL){
+        temp = temp->next;
+        s++;
+    }
+    if(v.size() == 0 || s == 0)
+        return head;
+
     for(int i = 0; i < v.size(); i++)
     {
-        ListNode node;
+        //cout << "for " << i << " i.e " << v[i] << " :- \n";
         vector<ListNode*> mark = split_list(head, v[i]);
-        vector<ListNode*> to_append = reverse_linked_list(mark[0]);
+       // print(mark[0]);
+        //print(mark[1]);
+        vector<ListNode*> to_append = reverse_linked_list(mark[0], mark[1]);
+
         int n = to_append.size();
+       /* cout << "\t" << n << "\t(";
+        for(int i = 0; i < n; i++)
+            cout << to_append[i]->val <<" ";
+        cout << ")\n\t";*/
+
         append_reversed_list_to_result(result_head, result_tail, to_append[0], to_append[n-1]);
+        result_tail->next = mark[1];
         head = mark[1];
     }
+
     return result_head;
 }

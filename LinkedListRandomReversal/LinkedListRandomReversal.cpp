@@ -11,7 +11,7 @@ void test_reverse_linked_list(void)
     // empty list test
 
     {
-        vector<ListNode *> res = reverse_linked_list(NULL);
+        vector<ListNode *> res = reverse_linked_list(NULL, NULL);
         assert(res[0] == NULL);
     }
 
@@ -20,8 +20,9 @@ void test_reverse_linked_list(void)
         vector<int> arr = {1};
         ListNode node;
         ListNode * head = node.createList(arr);
+        ListNode * tail = head;
         // one element test
-        vector<ListNode *> res = reverse_linked_list(head);
+        vector<ListNode *> res = reverse_linked_list(head, NULL);
         assert(res[0] != NULL);
         assert(res[0]->val == 1);
         assert(res[0]->next == NULL);
@@ -33,7 +34,7 @@ void test_reverse_linked_list(void)
         ListNode node;
         ListNode * head = node.createList(arr);
         // one element test
-        vector<ListNode *> res = reverse_linked_list(head);
+        vector<ListNode *> res = reverse_linked_list(head, NULL);
         assert(res[0] != NULL);
         assert(res[0]->val == 2);
         ListNode * second = res[0]->next;
