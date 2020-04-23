@@ -142,52 +142,17 @@ void append_reversed_list_to_result(ListNode* &result_head, ListNode* &result_ta
 //      Return the result list
 //
 
-void append(ListNode** head, int new_data)
-{
-    ListNode* new_node = new ListNode();
-    ListNode* last = *head;
-
-    new_node->val = new_data;
-    new_node->next = NULL;
-
-    if(*head == NULL){
-        *head = new_node;
-        return;
-    }
-
-    while(last->next != NULL)
-        last = last->next;
-
-    last->next = new_node;
-    return;
-}
-
 ListNode * performRandomReversals(ListNode * head, const vector<int> & v)
 {
-    ListNode* new_head = new ListNode();
-    ListNode* current = head;
-
+    ListNode *result_head = NULL, *result_tail = NULL;
     for(int i = 0; i < v.size(); i++)
     {
-        stack<int> st;
-        int x = v[i];
-        while(x-- && current != NULL){
-            st.push(current->val);
-            current = current->next;
-        }
-
-        while(!st.empty())
-        {
-            append(&new_head, st.top());
-            st.pop();
-        }
+        ListNode node;
+        vector<ListNode*> mark = split_list(head, v[i]);
+        vector<ListNode*> to_append = reverse_linked_list(mark[0]);
+        int n = to_append.size();
+        append_reversed_list_to_result(result_head, result_tail, to_append[0], to_append[n-1]);
+        head = mark[1];
     }
-
-    while(current != NULL)
-    {
-        append(&new_head, current->val);
-        current = current->next;
-    }
-
-    return new_head->next;
+    return result_head;
 }
