@@ -159,6 +159,8 @@ ListNode * performRandomReversals(ListNode * head, const vector<int> & v)
     for(int i = 0; i < v.size(); i++)
     {
         s -= v[i];    
+        if(v[i] == 0)
+            continue;
         //cout << "for " << i << " i.e " << v[i] << " :- \n";
         vector<ListNode*> mark = split_list(head, v[i]);
        // print(mark[0]);
