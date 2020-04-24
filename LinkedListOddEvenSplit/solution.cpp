@@ -61,19 +61,31 @@ void printlist(ListNode * head)
 //      1. head of linked list of all nodes in odd positions
 //      2. head of linked list of all nodes in even positions
 
-bool detectLoop(ListNode* h)
+pair<int, pair<int, int>> detectCycle(ListNode* A)
 {
-    unordered_set<ListNode*> s;
-    while (h != NULL) {
-        if (s.find(h) != s.end())
-            return true;
+    map<ListNode*, int> uset;
+    map<ListNode*, int>:: iterator itr;
 
-        s.insert(h);
+    ListNode *ptr = A;
+    int cnt = 1;
+    while (ptr != NULL)
+    {
+        if (uset.find(ptr) != uset.end()){
+            itr = uset.find(ptr);
 
-        h = h->next;
+            if(cnt-1 == itr->second)
+                return {-2, {itr->second, itr->first->val}};
+            return {itr->second, {itr->second, itr->first->val}};
+        }
+
+        else
+            uset.insert({ptr, cnt});
+
+        cnt++;
+        ptr = ptr->next;
     }
 
-    return false;
+    return {-1, {itr->second, itr->first->val}};
 }
 
 vector<ListNode*> solve_without_loop(ListNode* head)
@@ -123,26 +135,6 @@ vector<ListNode*> solve_without_loop(ListNode* head)
     return res;
 }
 
-int find_index(ListNode* head)
-{
-    ListNode* fast, *slow;
-    fast = slow = head;
-    do {
-        fast = fast->next->next;
-        slow = slow->next;
-    } while (fast != slow);
-
-    fast = head;
-    int cnt = 1;
-    do {
-        cnt++;
-        fast = fast->next;
-        slow = slow->next;
-    }while (fast != slow);
-
-    return cnt;
-}
-
 vector<ListNode*> without_loop(ListNode *head)
 {
     vector<ListNode*> res(2);
@@ -178,10 +170,11 @@ vector<ListNode*> loop(ListNode *head, int loop_index)
 
     while(z--)
         start = start->next;
+
     temp = start;
 
     z = loop_index-1;
-    //cout << "The loop contains :- ";
+
     while(temp != start || chk == 0)
     {
         if(temp == start) chk = 1;
@@ -225,10 +218,30 @@ vector<ListNode*> loop(ListNode *head, int loop_index)
 
 vector<ListNode *> split_list_by_odd_or_even(ListNode * head)
 {
-     int loop_index = -1;
-    if(detectLoop(head))
-        loop_index = find_index(head);
-    vector<ListNode*> res;
+    
+    pair<int, pair<int, int>> p = detectCycle(head);
+    int loop_index = p.first;
+
+    vector<ListNode*> res(2);
+    if(loop_index == -2)
+    {
+        ListNode* add = new ListNode();
+        add->val = p.second.second;
+        add->next = NULL;
+
+        if(p.second.first%2 == 1)
+        {
+            res[0] = add;
+            res[1] = NULL;
+        }
+        else
+        {
+            res[0] = NULL;
+            res[1] = add;
+        }
+
+        return res;
+    }
     if(loop_index == -1)
         res = without_loop(head);
     else
