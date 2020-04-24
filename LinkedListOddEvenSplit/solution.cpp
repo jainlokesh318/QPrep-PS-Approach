@@ -85,7 +85,7 @@ pair<int, pair<int, int>> detectCycle(ListNode* A)
         ptr = ptr->next;
     }
 
-    return {-1, {itr->second, itr->first->val}};
+    return {-1, {0, 0}};
 }
 
 vector<ListNode*> solve_without_loop(ListNode* head)
