@@ -20,7 +20,7 @@ int main() {
 
     ListNode node;
     ListNode * head = node.createListWithLoop(arr, k);
-    vector<ListNode *> result = split_list_by_odd_or_even(head, k);
+    vector<ListNode *> result = split_list_by_odd_or_even(head);
 
     printlist(result[0]);
     printlist(result[1]);

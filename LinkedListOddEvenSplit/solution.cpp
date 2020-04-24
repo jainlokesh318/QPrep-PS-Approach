@@ -61,6 +61,21 @@ void printlist(ListNode * head)
 //      1. head of linked list of all nodes in odd positions
 //      2. head of linked list of all nodes in even positions
 
+bool detectLoop(ListNode* h)
+{
+    unordered_set<ListNode*> s;
+    while (h != NULL) {
+        if (s.find(h) != s.end())
+            return true;
+
+        s.insert(h);
+
+        h = h->next;
+    }
+
+    return false;
+}
+
 vector<ListNode*> solve_without_loop(ListNode* head)
 {
     vector<ListNode*> res(2);
@@ -106,6 +121,26 @@ vector<ListNode*> solve_without_loop(ListNode* head)
     res[1] = evenHead;
 
     return res;
+}
+
+int find_index(ListNode* head)
+{
+    ListNode* fast, *slow;
+    fast = slow = head;
+    do {
+        fast = fast->next->next;
+        slow = slow->next;
+    } while (fast != slow);
+
+    fast = head;
+    int cnt = 1;
+    do {
+        cnt++;
+        fast = fast->next;
+        slow = slow->next;
+    }while (fast != slow);
+
+    return cnt;
 }
 
 vector<ListNode*> without_loop(ListNode *head)
@@ -188,8 +223,11 @@ vector<ListNode*> loop(ListNode *head, int loop_index)
     return res;
 }
 
-vector<ListNode *> split_list_by_odd_or_even(ListNode * head, int loop_index)
+vector<ListNode *> split_list_by_odd_or_even(ListNode * head)
 {
+     int loop_index = -1;
+    if(detectLoop(head))
+        loop_index = find_index(head);
     vector<ListNode*> res;
     if(loop_index == -1)
         res = without_loop(head);
