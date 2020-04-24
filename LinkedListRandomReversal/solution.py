@@ -45,6 +45,11 @@ class Solution:
 #
 
 
+
+
+
+
+
     def print_list(self, head):
         print("List : ", end=' ')
 
@@ -54,3 +59,5 @@ class Solution:
 
         print()
 
+
+    def performRandomReversal(self, head, nums):
