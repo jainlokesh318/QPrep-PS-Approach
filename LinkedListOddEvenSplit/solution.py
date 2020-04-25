@@ -6,7 +6,7 @@ def print_list(head):
         head = head.next
     print('null')
 
-# TODO: CRIO_TASK_MODULE_LINKED_LIST_ODD_EVEN_SPLIT
+# TODO: CRIO_TASK_MODULE_LINKED_LIST_ODD_EVEN_SPLIgT
 # Input:
 #      1. head of linked list
 # Task:
@@ -17,5 +17,4 @@ def print_list(head):
 #      1. head of linked list of all nodes in odd positions
 #      2. head of linked list of all nodes in even positions
 
-def split_list_by_odd_or_even(head):
 
