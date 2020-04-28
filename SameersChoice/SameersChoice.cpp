@@ -7,7 +7,7 @@
 
 
 
-void test_valid_numer_pattern()
+/*void test_valid_numer_pattern()
 {
     {
         vehicle_info number1("TN-12-1234");
@@ -76,7 +76,7 @@ void test_palindrome()
         assert(false == is_palindrome("122"));
         assert(false == is_palindrome("12"));
     }
-}
+}*/
 
 
 int main()
@@ -84,9 +84,9 @@ int main()
     int n;
     cin >> n;
 
-    test_valid_numer_pattern();
-    test_number_pattern();
-    test_palindrome();
+  //  test_valid_numer_pattern();
+    //test_number_pattern();
+   // test_palindrome();
 
     vector<number_pattern> patterns;
     for (int i = 0; i < n; ++i) {
