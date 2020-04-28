@@ -95,7 +95,7 @@ bool check_mid(vehicle_info x)
        // cout << " " << su << " ";
         for(int i = 0; i < cnt; i++)
         {
-            if(su[i] >= 'A' && su[i] <= 'Z')
+            if((su[i] >= 'A' && su[i] <= 'Z') || (su[i] >= 'a' && su[i] <= 'z'))
                 continue;
     //        cout << "Going from here " ;
             return false;
