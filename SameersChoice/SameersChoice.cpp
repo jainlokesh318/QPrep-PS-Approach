@@ -32,9 +32,9 @@
         assert(false == number8.is_valid_number_pattern());
         assert(false == number9.is_valid_number_pattern());
     }
-}
+}*/
 
-void test_number_pattern()
+/*void test_number_pattern()
 {
     {
         number_pattern pattern("31-23-45", "Car");
@@ -84,7 +84,7 @@ int main()
     int n;
     cin >> n;
 
-  //  test_valid_numer_pattern();
+  // test_valid_numer_pattern();
     //test_number_pattern();
    // test_palindrome();
 
