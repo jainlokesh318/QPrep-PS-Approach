@@ -8,7 +8,7 @@ No
 No
 Yes Bad 7675
 No
-Yes Bad 5877
+No
 No
 No
 No
@@ -56,7 +56,7 @@ Yes Bad 5088
 Yes Bad 2977
 No
 No
-Yes Bad 3237
+No
 Yes Bad 6856
 Yes Bad 8421
 Yes Bad 1210

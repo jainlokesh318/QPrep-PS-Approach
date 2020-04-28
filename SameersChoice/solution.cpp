@@ -233,7 +233,12 @@ void follow_regex(vehicle_info x, vector<number_pattern> &patterns)
 
 bool is_valid_number_pattern(vehicle_info x, vector<number_pattern> &patterns)
 {
-    int flag = 0;
+    string s = x.number;
+    int n = x.number.size();
+    for(int i = 0; i < n-1; i++)
+        if(s[i] == '-' && s[i+1] == '-')
+            return false;
+            
     if(((check_state(x) && check_district(x)) && check_mid(x)) && check_last(x))
     {
         cout << "Yes ";
