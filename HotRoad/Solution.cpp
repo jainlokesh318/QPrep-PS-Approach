@@ -69,5 +69,5 @@ int findMaximumNumberOfPeopleAccomodated(vector< pair<string , int> >& broken, v
         fresh.insert({score, c-p});
     }
 
-    cout << computePassengers(flat, fresh, dist);
+    return computePassengers(flat, fresh, dist);
 }
