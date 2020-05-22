@@ -8,7 +8,11 @@ long long stringScore(string s)
     long long secA = (s[2]-'0')*10 + (s[3]-'0');
     secA = (secA-1)*26*26*9999;
 
-    long long secB = (s[4]-64)*(s[5]-64)*9999;
+    long long secB = 0;
+
+    if(s[4] >= 'B')
+        secB = (s[4]-65)*26*9999;
+    secB += (s[5]-65)*9999;
 
     long long secC = (s[6]-'0')*1000;
     secC += (s[7]-'0')*100;
