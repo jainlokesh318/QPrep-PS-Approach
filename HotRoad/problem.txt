@@ -1,0 +1,75 @@
+Hot Road
+There was extreme heat for a period of 2 hours on a stretch of Highway NH47. All vehicles that crossed this stretch of highway NH47 during this 2-hr period had flat tires. After the 2-hr period, temperatures returned to normal levels. For the people traveling in cars affected by flat tires, your job is to find a ride on other cars passing by the same stretch of NH47. The rule is that people in affected cars can ride in a given car only if the distance between their car registration numbers is <= K.
+
+N - number of cars that pass through the highway during the hot weather K - allowed registration number difference M - number of cars that pass through the highway after the hot weather.
+
+Car registration numbers are allocated in an incremental order:
+
+KA01AA0001 is the number of the first vehicle registered.
+KA01AA0002 is the number of the second vehicle registered.
+KA01AB0001 is the number of the 10,000th vehicle registered
+KA01BA0001 is the number of the 2,59,975 vehicle registered.
+KA02AA0001 is the number of the 67,59,325 vehicle registered.
+Example
+
+Input
+
+2 50 
+
+KA01MQ7139 3
+
+KA01MQ7169 2     
+
+2
+
+KA01MQ7119 2  4
+
+KA01MQ7189 2  5
+Output
+
+5
+
+Explanation
+
+KA01MQ7139 2 goes with KA01MQ7119
+
+KA01MQ7139 1 goes with KA01MQ7189
+
+KA01MQ7169 2 goes with KA01MQ7189
+Input Format
+
+N K
+
+N entries # each line has car registration number and num passengers
+
+M
+
+M entries # each line has car registration number, num passengers and capacity
+
+Constraints
+
+N <= 10000
+
+M <= 10000
+
+K >= 0
+
+number of people in a car <= 10
+
+Output Format
+
+Print the maximum number of people you can arrange transport for using this scheme.
+
+Sample Input 0
+
+3 50
+KA01MQ7139 10
+KA01MQ7169 1
+KA01MQ7179 2
+3
+KA01MQ7119 2  4
+KA01MQ7189 2  7
+KA01MQ7229 2  7
+Sample Output 0
+
+9

@@ -2,7 +2,7 @@
 import argparse
 import os
 import sys
-import git
+#import git
 from git import Repo
 
 TIMEOUT_FOR_ONE_JAVA_TESTCASE = 5.0
@@ -27,6 +27,7 @@ def filecompare_ignore_whitespace(file1, file2):
 def run_command_with_timeout(cmd, timeout_in_seconds):
     ret = subprocess.call(cmd, shell=True, timeout=timeout_in_seconds)
     return ret
+
 def run(name_of_the_problem, language='c++'):
 
     assert language in ['java', 'c++', 'c++11', 'c++14', 'c++17', 'python']
@@ -59,12 +60,17 @@ def run(name_of_the_problem, language='c++'):
         return test_results
 
     test_results = {}
-
+    
+    print('*' * 150)
+    print('%-25s %-25s %-50s %-30s' % ('Test Result', 'Test name', 'Input file', 'Output file'))
+    print('*' * 150)
     for file_name in sorted(all_test_files):
         if 'input-' in file_name:
             output_file_name = file_name.replace('input-', 'output-')
             test_name = file_name.replace('input-', 'test-')
-
+                    
+            actual_output_file = os.path.join(name_of_the_problem, 'actual-' + output_file_name)
+            full_input_file_path = os.path.join(os.path.join(name_of_the_problem, 'tests'), file_name) 
             if output_file_name in sorted(all_test_files):
                 test_output_filename = 'actual-{}'.format(output_file_name)
                 try:
@@ -78,21 +84,21 @@ def run(name_of_the_problem, language='c++'):
                         passed = filecompare_ignore_whitespace(os.path.join(name_of_the_problem, test_output_filename), '{}/tests/{}'.format(name_of_the_problem, output_file_name))
 
                     if passed:
-                        print('%-25s : Passed' % (file_name))
                         test_results[test_name] = 'PASSED'
+                        print('%-25s %-25s %-50s %-30s' % (test_results[test_name], file_name, full_input_file_path, actual_output_file))
                     else:
-                        print('%-25s : Failed' % (file_name))
                         test_results[test_name] = 'FAILED'
+                        print('%-25s %-25s %-50s %-30s' % (test_results[test_name], file_name, full_input_file_path, actual_output_file))
                         all_tests_passed = False
                 except:
                     test_results[test_name] = 'TIMEDOUT'
                     all_tests_passed = False
-                    print('%-25s: Timedout' % (file_name))
+                    print('%-25s %-25s %-50s %-30s' % (test_results[test_name], file_name, full_input_file_path, actual_output_file))
 
 
 def run_one_test(language, name_of_the_problem, input_file_name, output_file_name):
     run_cmd = {
-            'java' : 'java -cp .:../crio/java ' + name_of_the_problem,
+            'java' : 'java -ea -cp .:../crio/java ' + name_of_the_problem,
             'c++' :  './' + name_of_the_problem  + '.out',
             'c++11' : './' + name_of_the_problem  + '.out',
             'c++14' :  './' + name_of_the_problem  + '.out',
@@ -120,7 +126,7 @@ def run_with_custom_input(name_of_the_problem, language, input_file_path):
             'c++11'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++11 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
             'c++14'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++14 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
             'c++17'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++17 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'python' : 'cd ' + name_of_the_problem + ' && export PYTHONPATH=../crio/python && python -m py_compile ' + name_of_the_problem + '.py'
+            'python' : 'cd ' + name_of_the_problem + ' && export PYTHONPATH=../crio/python && python3 -m py_compile ' + name_of_the_problem + '.py'
             }
     compile_program = compile_cmd[language]
 
@@ -131,7 +137,7 @@ def run_with_custom_input(name_of_the_problem, language, input_file_path):
 
 
     run_cmd = {
-        'java' : 'cd ' + name_of_the_problem + ' &&  java -cp .:../crio/java ' + name_of_the_problem,
+        'java' : 'cd ' + name_of_the_problem + ' &&  java -ea -cp .:../crio/java ' + name_of_the_problem,
         'c++' :  'cd ' + name_of_the_problem + ' &&  ./' + name_of_the_problem  + '.out',
         'c++11' :  'cd ' + name_of_the_problem + ' &&  ./' + name_of_the_problem  + '.out',
         'c++14' :  'cd ' + name_of_the_problem + ' &&  ./' + name_of_the_problem  + '.out',
@@ -153,11 +159,20 @@ def run_with_custom_input(name_of_the_problem, language, input_file_path):
 def commit_msg(name_of_the_problem, submission_type, language):
     return "[{}]:[{}]:[{}]".format(submission_type, name_of_the_problem, language)
 
- 
+
+def commit_misc_files():
+    repo = Repo(os.getenv('PWD'))
+    repo.index.add(['__CRIO__', '.gitignore', '.gitattributes', 'runner.py'], force=False)
+    count_staged_files = len(repo.index.diff("HEAD"))
+    #print('Number of staged files = ', count_staged_files)
+    if count_staged_files > 0:
+        repo.index.commit("[misc]: changes to misc files")
+
 def local_run(name_of_the_problem, type_of_run, lang):
     repo = Repo(os.getenv('PWD'))
     repo.index.add([name_of_the_problem], force=False)
     repo.index.commit(commit_msg(name_of_the_problem, type_of_run, lang))
+
 def submit(name_of_the_problem):
     repo = Repo('.')
     repo.index.add([name_of_the_problem], force=False)
@@ -166,7 +181,10 @@ def submit(name_of_the_problem, lang):
     repo = Repo(os.getenv('PWD'))
     repo.index.add([name_of_the_problem], force=False)
     repo.index.commit(commit_msg(name_of_the_problem, "Solved", lang))
-    repo.remotes.origin.push()
+    try:
+        repo.remotes.origin.push()
+    except:
+        print('FAILURE: failed to push changes. You might have unmerged changes in your workspace')
 
 def get_submission_type_and_problem_id():
     repo = Repo(os.getenv('PWD'))
@@ -191,7 +209,7 @@ def repo_exists(path, repo_name):
     
     for line in lines:
         if repo_name in line:
-            os.system('cd crio && git reset --hard origin/master')	    
+            os.system('cd crio && git reset --hard origin/master && git pull')	    
             return True
     return False
 
@@ -202,12 +220,24 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--test-all', help='all assessment for all problems', action='store_true')
     parser.add_argument('-l', '--lang', help='solution language')
     parser.add_argument('-p', '--problem', help='name of the problem solved')
-    parser.add_argument('--dev' , help='dev mode', action='store_true')
     parser.add_argument('--test' , help='test problem with custom input file', action='store_true')
     parser.add_argument('--input' , help='input file for custom input')
+   
+
+    developer_mode = True 
+    #developer_mode = False 
+    
+    developer_mode = False 
+
+
+
 
     args = parser.parse_args()
+   
+    if not developer_mode:
+        commit_misc_files()
 
+    os.system('find . -name core.* | xargs rm || true')
 
     config_path = 'crio/.git/config'
     if not repo_exists('crio/.git/config', 'crio_ps_ds.git'):
@@ -235,7 +265,7 @@ if __name__ == '__main__':
 
     if args.run:
         run(args.problem, args.lang)
-        if not args.dev:
+        if not developer_mode:
             local_run(args.problem, "LocalTest", args.lang)
 
     if args.test:
@@ -245,11 +275,11 @@ if __name__ == '__main__':
                 sys.exit(1)
         run_with_custom_input(args.problem, args.lang, args.input)
 
-        if not args.dev:
+        if not developer_mode:
             local_run(args.problem, "SingleTest", args.lang)
 
     if args.submit:
         run(args.problem, args.lang)
-        if not args.dev:
+        if not developer_mode:
             submit(args.problem, args.lang)
-            get_submission_type_and_problem_id()
+            #get_submission_type_and_problem_id()
