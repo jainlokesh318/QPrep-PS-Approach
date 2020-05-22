@@ -66,6 +66,11 @@ int findMaximumNumberOfPeopleAccomodated(vector< pair<string , int> >& broken, v
         flat.insert({score, p});
     }
 
+    int regNumberToInteger(string s)
+    {
+        return stringScore(s);
+    }
+
     for(itr2 = good.begin(); itr2 != good.end(); itr2++)
     {
         string s = itr2->first;
