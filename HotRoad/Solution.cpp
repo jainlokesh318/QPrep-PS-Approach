@@ -3,11 +3,6 @@ using namespace std;
 
 // Finish this function
 
- long long regNumberToInteger(string s)
-    {
-        return stringScore(s);
-    }
-
 long long stringScore(string s)
 {
     long long secA = (s[2]-'0')*10 + (s[3]-'0');
@@ -53,6 +48,12 @@ long computePassengers(map<long long, long long> &flat,
 
     return ans;
 }
+
+
+ long long regNumberToInteger(string s)
+    {
+        return stringScore(s);
+    }
 
 int findMaximumNumberOfPeopleAccomodated(vector< pair<string , int> >& broken, vector<pair< string ,pair<int,int > > >& good, int dist)
 {
