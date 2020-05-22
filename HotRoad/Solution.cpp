@@ -32,10 +32,13 @@ long computePassengers(map<long long, long long> &flat,
            long diff = abs(itr1->first - itr2->first);
            if(diff <= k)
            {
-                ans += min(itr1->second, itr2->second);
-                itr1->second -= min(itr1->second, itr2->second);
-                itr2->second -= min(itr1->second, itr2->second);
-           }
+                long mini = min(itr1->second, itr2->second);
+
+                ans += mini;
+                itr1->second -= mini;
+                itr2->second -= mini;
+
+            }
         }
     }
 
