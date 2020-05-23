@@ -25,10 +25,11 @@ long long stringScore(string s)
 long computePassengers(map<long long, long long> &flat,
         map<long long, long long> &fresh, long k)
 {
-    long ans = 0;
+    
     map<long long, long long>:: iterator itr1;
     map<long long, long long>:: iterator itr2;
-
+    long ans = 0;
+    
     for(itr1 = flat.begin(); itr1 != flat.end(); itr1++)
     {
         for(itr2 = fresh.begin(); itr2 != fresh.end(); itr2++)
