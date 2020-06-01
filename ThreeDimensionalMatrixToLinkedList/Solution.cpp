@@ -40,8 +40,7 @@ class Solution{
     public:
         DirectionLinkedListNode* ThreeDimensionalMatrixToLinkedList(vector<vector<vector<int> > > mat,int layer,int row,int column)
         {
-            vector<vector<vector<DirectionLinkedListNode*>>> a = 
-                vector<vector<vector<DirectionLinkedListNode*>>>(layer, 
+            vector<vector<vector<DirectionLinkedListNode*>>> a(layer, 
                     vector<vector<DirectionLinkedListNode*>>(row, vector<DirectionLinkedListNode*>(column)));
 
             for(int i = 0; i < layer; i++)
