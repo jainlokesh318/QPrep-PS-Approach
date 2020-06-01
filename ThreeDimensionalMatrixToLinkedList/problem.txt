@@ -1,0 +1,53 @@
+You are given a 3-D Matrix A. You need to convert the matrix into fully connected cyclic linked list.
+
+
+Input Format:
+First line contains layer number(L) ,row number(R) & column number(C) dimensions of the 3-D matrix
+For each layer L a 2d matrix will be given of dimensions R*C. 
+For e.g.
+2 2 2
+1 2
+3 4
+5 6
+7 8
+
+Output Format:
+Return the firstmost node of the top element.
+The output will be the neighbour's value of each element in single line in order of  {front back left right up down } fashion. 
+
+Constraints:
+1<=L*R*C<=200000
+1<=A[i][j][k]<=1000000
+
+=========
+Example 1
+=========
+Input:
+1 1 1
+1
+
+
+Output: 
+1 1 1 1 1 1 
+
+
+Explanation: 
+So there is only one element given in 3d matrix with value 1.
+So in all direction it will point to itself as it is cyclic.
+
+=========
+Example 2
+=========
+Input:
+2 1 1
+4
+5
+
+Output:
+5 5 4 4 4 4 
+4 4 5 5 5 5 
+
+
+Explanation: 
+As there are only two layers of 1*1 matrix. So the front & back element of node containing value 4 will be 5 and vice versa.
+As described in the printing order you need to print val(node->front) , val(node->back), val(node->left) ,val(node->right), val(node->up) & val(node->down);
