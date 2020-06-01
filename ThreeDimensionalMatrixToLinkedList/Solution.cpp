@@ -40,8 +40,9 @@ class Solution{
     public:
         DirectionLinkedListNode* ThreeDimensionalMatrixToLinkedList(vector<vector<vector<int> > > mat,int layer,int row,int column)
         {
-            vector<vector<vector<DirectionLinkedListNode*>>> a(layer, 
-                    vector<vector<DirectionLinkedListNode*>>(row, vector<DirectionLinkedListNode*>(column)));
+           vector<DirectionLinkedListNode*> vec1;
+    vector<vector<DirectionLinkedListNode*>> vec2(row, vec1);
+    vector<vector<vector<DirectionLinkedListNode*>>> a(layer, vec2);
 
             for(int i = 0; i < layer; i++)
             {
@@ -55,19 +56,6 @@ class Solution{
                 }
             }
 
-            for(int i = 0; i < layer; i++)
-            {
-                for(int j = 0; j < row; j++)
-                {
-                    for(int k = 0; k < column; k++)
-                    {
-                        cout << a[i][j][k]->val << " "; 
-                    }
-                    cout << "\n";
-                }
-            }
-
-            
             //layers
             for(int i = 0; i < a.size(); i++)
             {
@@ -82,13 +70,13 @@ class Solution{
                             a[i][j][k]->front = a[layer-1][j][k];
                         else
                             a[i][j][k]->front = a[i-1][j][k];
-                        
+
                         //populate back
                         if(i+1 >= layer)
                             a[i][j][k]->back = a[0][j][k];
                         else
                             a[i][j][k]->back = a[i+1][j][k];
-                        
+
                         //populate left
                         if(k-1 < 0)
                             a[i][j][k]->left = a[i][j][column-1];
@@ -100,7 +88,7 @@ class Solution{
                             a[i][j][k]->right = a[i][j][0];
                         else
                             a[i][j][k]->right = a[i][j][k+1];
-                        
+
                         //populate up
                         if(j-1 < 0)
                             a[i][j][k]->up = a[i][row-1][k];
@@ -112,7 +100,7 @@ class Solution{
                             a[i][j][k]->down = a[i][0][k];
                         else
                             a[i][j][k]->down = a[i][j+1][k];
-                            
+
                     }
                 }
             }
