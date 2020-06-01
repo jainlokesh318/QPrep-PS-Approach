@@ -55,6 +55,20 @@ class Solution{
                     }
                 }
             }
+
+            for(int i = 0; i < layer; i++)
+            {
+                for(int j = 0; j < row; j++)
+                {
+                    for(int k = 0; k < column; k++)
+                    {
+                        cout << a[i][j][k]->val << " "; 
+                    }
+                    cout << "\n";
+                }
+            }
+
+            /*
             //layers
             for(int i = 0; i < a.size(); i++)
             {
@@ -102,7 +116,7 @@ class Solution{
                             
                     }
                 }
-            }
-            return a[0][0][0];
+            }*/
+            return NULL;
         }  
 };
