@@ -67,7 +67,7 @@ class Solution{
                 }
             }
 
-            /*
+            
             //layers
             for(int i = 0; i < a.size(); i++)
             {
@@ -115,7 +115,7 @@ class Solution{
                             
                     }
                 }
-            }*/
-            return NULL;
+            }
+            return a[0][0][0];
         }  
 };
