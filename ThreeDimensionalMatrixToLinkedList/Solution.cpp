@@ -38,8 +38,23 @@ public:
 
 class Solution{ 
     public:
-        DirectionLinkedListNode* ThreeDimensionalMatrixToLinkedList(vector<vector<vector<int> > > a,int layer,int row,int column)
+        DirectionLinkedListNode* ThreeDimensionalMatrixToLinkedList(vector<vector<vector<int> > > mat,int layer,int row,int column)
         {
+            vector<vector<vector<DirectionLinkedListNode*>>> a = 
+                vector<vector<vector<DirectionLinkedListNode*>>>(layer, 
+                    vector<vector<DirectionLinkedListNode*>>(row, vector<DirectionLinkedListNode*>(column)));
+
+            for(int i = 0; i < layer; i++)
+            {
+                for(int j = 0; j < row; j++)
+                {
+                    for(int k = 0; k < column; k++)
+                    {
+                        DirectionLinkedListNode* newNode = new DirectionLinkedListNode(mat[i][j][k]);
+                        a[i][j].push_back(newNode);
+                    }
+                }
+            }
             //layers
             for(int i = 0; i < a.size(); i++)
             {
